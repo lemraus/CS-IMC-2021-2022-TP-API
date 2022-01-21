@@ -37,9 +37,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     try:
         logging.info("Test de connexion avec py2neo...")
         graph = Graph(neo4j_server, auth=(neo4j_user, neo4j_password))
-        producers = graph.run("MATCH (n:Name)-[:PRODUCED]->(t:Title) WHERE t.primaryTitle CONTAINS 'Spider-Man' RETURN DISTINCT n.nconst, n.primaryName LIMIT 3")
+        producers = graph.run("MATCH (n:Artist)-[:PRODUCED]->(t:Film) WHERE t.primaryTitle CONTAINS 'Spider-Man' RETURN DISTINCT n.idArtist, n.primaryName LIMIT 3")
         for producer in producers:
-            dataString += f"CYPHER: nconst={producer['n.nconst']}, primaryName={producer['n.primaryName']}\n"
+            dataString += f"CYPHER: idArtist={producer['n.idArtist']}, primaryName={producer['n.primaryName']}\n"
 
         try:
             logging.info("Test de connexion avec pyodbc...")
