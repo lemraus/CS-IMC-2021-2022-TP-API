@@ -38,7 +38,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         logging.info("Test de connexion avec py2neo...")
         graph = Graph(neo4j_server, auth=(neo4j_user, neo4j_password))
         artists = graph.run("MATCH (:Film)<-[r1]-(n:Artist)-[r2]->(:Film) WHERE type(r1) <> type(r2) WITH DISTINCT n RETURN n.primaryName LIMIT 10")
-        dataString += "Noms des artistes ayant eu plusieurs responsabilités au cours de leur carrière (10 premières entrées) :"
+        dataString += "Noms des artistes ayant eu plusieurs responsabilités au cours de leur carrière (10 premières entrées) :\n"
         for artist in artists:
             dataString += f"{artist['n.primaryName']}\n"
     except:
