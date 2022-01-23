@@ -2,6 +2,7 @@ import logging
 import os
 import pyodbc as pyodbc
 import azure.functions as func
+import traceback
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
@@ -27,13 +28,16 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         
     errorMessage = ""
     dataString = ""
-    logging.info("Test de connexion avec pyodbc...")
-    with pyodbc.connect('DRIVER='+driver+';SERVER=tcp:'+server+';PORT=1433;DATABASE='+database+';UID='+username+';PWD='+ password) as conn:
-        cursor = conn.cursor()
-        cursor.execute("select birthYear, count(*) from tArtist where birthYear = ( select top 1 birthYear from tArtist where birthYear != '0' group by birthYear order by count(*) desc ) group by birthYear")
+    try:
+        logging.info("Test de connexion avec pyodbc...")
+        with pyodbc.connect('DRIVER='+driver+';SERVER=tcp:'+server+';PORT=1433;DATABASE='+database+';UID='+username+';PWD='+ password) as conn:
+            cursor = conn.cursor()
+            cursor.execute("select birthYear, count(*) from tArtist where birthYear = ( select top 1 birthYear from tArtist where birthYear != '0' group by birthYear order by count(*) desc ) group by birthYear")
 
-        rows = cursor.fetchall()
-        dataString += f"Année de naissance la plus représentée et nombre d'artistes étant nés cette année-là :\n{rows[0][0]} {rows[0][1]}\n"
+            rows = cursor.fetchall()
+            dataString += f"Année de naissance la plus représentée et nombre d'artistes étant nés cette année-là :\n{rows[0][0]} {rows[0][1]}\n"
+    except:
+        traceback.print_exc()
 
     if name:
         return func.HttpResponse(f"Hello, {name}. This HTTP triggered function executed successfully.\n\n{dataString}{errorMessage}")
