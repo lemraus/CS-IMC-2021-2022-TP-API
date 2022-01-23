@@ -27,16 +27,13 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         
     errorMessage = ""
     dataString = ""
-    try:
-        logging.info("Test de connexion avec pyodbc...")
-        with pyodbc.connect('DRIVER='+driver+';SERVER=tcp:'+server+';PORT=1433;DATABASE='+database+';UID='+username+';PWD='+ password) as conn:
-            cursor = conn.cursor()
-            cursor.execute("select birthYear, count(*) from tArtist where birthYear = ( select birthYear from tArtist where birthYear != '0' group by birthYear order by count(*) desc limit 1 ) group by birthYear")
+    logging.info("Test de connexion avec pyodbc...")
+    with pyodbc.connect('DRIVER='+driver+';SERVER=tcp:'+server+';PORT=1433;DATABASE='+database+';UID='+username+';PWD='+ password) as conn:
+        cursor = conn.cursor()
+        cursor.execute("select birthYear, count(*) from tArtist where birthYear = ( select top 1 birthYear from tArtist where birthYear != '0' group by birthYear order by count(*) desc ) group by birthYear")
 
-            rows = cursor.fetchall()
-            dataString += f"Année de naissance la plus représentée et nombre d'artistes étant nés cette année-là :\n{rows[0][0]} {rows[0][1]}\n"
-    except:
-        errorMessage = "Erreur de connexion a la base SQL"
+        rows = cursor.fetchall()
+        dataString += f"Année de naissance la plus représentée et nombre d'artistes étant nés cette année-là :\n{rows[0][0]} {rows[0][1]}\n"
 
     if name:
         return func.HttpResponse(f"Hello, {name}. This HTTP triggered function executed successfully.\n\n{dataString}{errorMessage}")
