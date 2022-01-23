@@ -15,8 +15,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     if (not genre) and (not acteur) and (not directeur):
         return func.HttpResponse(
-            "Veuillez spécifier au moins un genre de film, un acteur ou un directeur afin d'obtenir la note moyenne des films associés",
-            status_code=400
+            "Veuillez spécifier au moins un genre de film, un acteur ou un directeur afin d'obtenir la note moyenne des films associés"
         )
 
     neo4j_server = os.environ["TPBDD_NEO4J_SERVER"]
