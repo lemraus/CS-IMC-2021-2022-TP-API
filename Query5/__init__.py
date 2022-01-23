@@ -39,7 +39,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             request += f"{' and' if genre else ''} where a.primaryName = '{acteur}' and type(r) = 'ACTED_IN'"
         if directeur:
             request += f"{' and' if genre or acteur else ''} where a.primaryName = '{directeur}' and type(r) = 'DIRECTED'"
-        request += " with distinct f return avg(f.averageRating) as rating"
+        request += " with distinct f return avg(f.averageRating)"
 
         rating = graph.run(request)
         dataString += f"Moyenne des notes de films pour genre='{genre if genre else '*'}' acteur='{acteur if acteur else '*'}' directeur='{directeur if directeur else '*'}' :\n"
