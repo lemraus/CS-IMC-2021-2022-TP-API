@@ -45,8 +45,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         dataString += f"Moyenne des notes de films pour genre='{genre if genre else '*'}' acteur='{acteur if acteur else '*'}' directeur='{directeur if directeur else '*'}' :\n"
         for r in ratings:
             dataString += r['rating']
-    except:
-        errorMessage = "Erreur de connexion a la base Neo4j"
+    except Exception as e:
+        print(e)
 
     return func.HttpResponse(
             f"This HTTP triggered function executed successfully.\n\n{dataString}{errorMessage}",
