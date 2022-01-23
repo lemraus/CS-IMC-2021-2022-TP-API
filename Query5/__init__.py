@@ -44,7 +44,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         ratings = graph.run(request)
         dataString += f"Moyenne des notes de films pour genre='{genre if genre else '*'}' acteur='{acteur if acteur else '*'}' directeur='{directeur if directeur else '*'}' :\n"
         for r in ratings:
-            dataString += f"{r['f.primaryTitle']} : {r['rating']}\n"
+            dataString += r['rating']
     except:
         errorMessage = "Erreur de connexion a la base Neo4j"
 
