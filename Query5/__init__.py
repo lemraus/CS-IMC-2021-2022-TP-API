@@ -43,9 +43,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
         ratings = graph.run(request)
         dataString += f"{ratings}\n"
-        dataString += f"Moyenne des notes de films pour genre='{genre if genre else '*'}' acteur='{acteur if acteur else '*'}' directeur='{directeur if directeur else '*'}' :\n"
-        for r in ratings:
-            dataString += r['rating']
+        #dataString += f"Moyenne des notes de films pour genre='{genre if genre else '*'}' acteur='{acteur if acteur else '*'}' directeur='{directeur if directeur else '*'}' :\n"
+        #for r in ratings:
+            #dataString += r['rating']
     except Exception as e:
         errorMessage += e
 
