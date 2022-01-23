@@ -31,11 +31,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         logging.info("Test de connexion avec pyodbc...")
         with pyodbc.connect('DRIVER='+driver+';SERVER=tcp:'+server+';PORT=1433;DATABASE='+database+';UID='+username+';PWD='+ password) as conn:
             cursor = conn.cursor()
-            cursor.execute("select top(1) primaryName from tArtist")
+            cursor.execute("select top(1) primaryName from [dbo].[tArtist]")
 
             rows = cursor.fetchall()
-            #dataString += f"Année de naissance la plus représentée et nombre d'artistes étant nés cette année-là :\n{rows[0][0]} {rows[0][1]}\n"
-            dataString += f"{rows}"
+            dataString += f"Année de naissance la plus représentée et nombre d'artistes étant nés cette année-là :\n{rows[0][0]} {rows[0][1]}\n"
     except:
         errorMessage = "Erreur de connexion a la base SQL"
 
