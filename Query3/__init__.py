@@ -32,7 +32,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         with pyodbc.connect('DRIVER='+driver+';SERVER=tcp:'+server+';PORT=1433;DATABASE='+database+';UID='+username+';PWD='+ password) as conn:
             try:
                 cursor = conn.cursor()
-                cursor.execute("select birthYear, count(*) from tArtist where birthYear = ( select top 1 birthYear from tArtist where birthYear != ‘0’ group by birthYear order by count(*) desc ) group by birthYear")
+                cursor.execute("select birthYear, count(*) from tArtist where birthYear = ( select top 1 birthYear from tArtist where birthYear != '0' group by birthYear order by count(*) desc ) group by birthYear")
 
                 rows = cursor.fetchall()
                 dataString += f"Année de naissance la plus représentée et nombre d'artistes étant nés cette année-là :\n{rows[0][0]} {rows[0][1]}\n"
