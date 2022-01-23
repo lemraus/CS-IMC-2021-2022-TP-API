@@ -15,7 +15,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     if (not genre) and (not acteur) and (not directeur):
         return func.HttpResponse(
-            "Veuillez spécifier au moins un genre de film, un acteur ou un directeur afin d'obtenir la note moyenne des films associés"
+            "Veuillez spécifier au moins un genre de film, un acteur ou un directeur afin d'obtenir la note moyenne des films associés",
+            status_code=400
         )
 
     neo4j_server = os.environ["TPBDD_NEO4J_SERVER"]
@@ -47,10 +48,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     except:
         errorMessage = "Erreur de connexion a la base Neo4j"
 
-    if name:
-        return func.HttpResponse(f"Hello, {name}. This HTTP triggered function executed successfully.\n\n{dataString}{errorMessage}")
-    else:
-        return func.HttpResponse(
-             f"This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.\n\n{dataString}{errorMessage}",
-             status_code=200
-        )
+    return func.HttpResponse(
+            f"This HTTP triggered function executed successfully.\n\n{dataString}{errorMessage}",
+            status_code=200
+    )
