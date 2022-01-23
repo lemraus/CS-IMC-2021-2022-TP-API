@@ -34,7 +34,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             cursor.execute("select top(1) primaryName from tArtist")
 
             rows = cursor.fetchall()
-            dataString += f"Année de naissance la plus représentée et nombre d'artistes étant nés cette année-là :\n{rows[0][0]} {rows[0][1]}\n"
+            #dataString += f"Année de naissance la plus représentée et nombre d'artistes étant nés cette année-là :\n{rows[0][0]} {rows[0][1]}\n"
+            dataString += f"{rows}"
     except:
         errorMessage = "Erreur de connexion a la base SQL"
 
