@@ -42,11 +42,12 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         request += " return avg(f.averageRating) as rating"
 
         ratings = graph.run(request)
+        dataString += f"{ratings}\n"
         dataString += f"Moyenne des notes de films pour genre='{genre if genre else '*'}' acteur='{acteur if acteur else '*'}' directeur='{directeur if directeur else '*'}' :\n"
         for r in ratings:
             dataString += r['rating']
     except Exception as e:
-        print(e)
+        errorMessage += e
 
     return func.HttpResponse(
             f"This HTTP triggered function executed successfully.\n\n{dataString}{errorMessage}",
